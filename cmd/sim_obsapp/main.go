@@ -22,6 +22,12 @@ func main() {
 		WriteTimeout: writeTimeout,
 	}
 
+	go func() {
+		time.Sleep(time.Minute * 1)
+		log.Println("Exit the SimObsApp process")
+		os.Exit(0)
+	}()
+
 	if err := httpSvr.ListenAndServe(); err != nil {
 		log.Println("Failed to listen http server, ", err.Error())
 		os.Exit(1)

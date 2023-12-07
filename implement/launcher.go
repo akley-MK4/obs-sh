@@ -1,14 +1,11 @@
-package internal
+package implement
 
 import (
 	_ "embed"
 	"log"
 )
 
-//go:embed static/es_app
-var encAppData []byte
-
-func ShellLaunch(accKey, outDir string) error {
+func ShellLaunch(encAppData []byte, accKey, outDir string) error {
 	if accKey == "" {
 		accKey = defaultAccKey
 	}
