@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func ShellLaunch(encAppData []byte, accKey, outDir string) error {
+func ShellLaunch(encAppData []byte, accKey, outDir string, enableClean bool) error {
 	if accKey == "" {
 		accKey = defaultAccKey
 	}
@@ -13,7 +13,7 @@ func ShellLaunch(encAppData []byte, accKey, outDir string) error {
 		outDir = defaultExecDir
 	}
 
-	if err := decryptFileToExecDir(accKey, encAppData, outDir); err != nil {
+	if err := decryptFileToExecDir(accKey, encAppData, outDir, enableClean); err != nil {
 		return err
 	}
 

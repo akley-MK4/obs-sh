@@ -6,6 +6,7 @@ import (
 	"crypto/cipher"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"runtime"
@@ -48,12 +49,7 @@ func EncryptFileToOutDir(accKey string, filePath string, outDir string) error {
 	return nil
 }
 
-func decryptFileToExecDir(accKey string, encData []byte, outDir string) error {
-	decData, decErr := aesDecryptCBC(encData, []byte(accKey))
-	if decErr != nil {
-		return decErr
-	}
-
+func decryptFileToExecDir(accKey string, encData []byte, outDir string, enableClean bool) error {
 	_, statErr := os.Stat(outDir)
 	if os.IsNotExist(statErr) {
 		_, createDirErr := createDirectory(outDir)
@@ -70,9 +66,19 @@ func decryptFileToExecDir(accKey string, encData []byte, outDir string) error {
 
 	_, statFileErr := os.Stat(outExecFilePath)
 	if !os.IsNotExist(statFileErr) {
+		if !enableClean {
+			return nil
+		}
+
 		if err := os.Remove(outExecFilePath); err != nil {
 			return err
 		}
+		log.Println("Cleaned up old apps")
+	}
+
+	decData, decErr := aesDecryptCBC(encData, []byte(accKey))
+	if decErr != nil {
+		return decErr
 	}
 
 	f, openErr := os.OpenFile(outExecFilePath, os.O_CREATE|os.O_RDWR|os.O_EXCL, os.ModePerm)

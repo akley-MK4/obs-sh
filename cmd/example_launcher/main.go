@@ -14,9 +14,10 @@ var encAppData []byte
 func main() {
 	accKey := flag.String("acc_key", "", "acc_key=")
 	outDir := flag.String("out_dir", "", "out_dir=")
+	enableClean := flag.Bool("enable_clean", false, "enable_clean=")
 	flag.Parse()
 
-	if err := implement.ShellLaunch(encAppData, *accKey, *outDir); err != nil {
+	if err := implement.ShellLaunch(encAppData, *accKey, *outDir, *enableClean); err != nil {
 		log.Println("Failed to execute the app, ", err.Error())
 		os.Exit(1)
 	}
