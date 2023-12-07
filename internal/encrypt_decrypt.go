@@ -54,15 +54,25 @@ func decryptFileToExecDir(accKey string, encData []byte, outDir string) error {
 		return decErr
 	}
 
+	_, statErr := os.Stat(outDir)
+	if os.IsNotExist(statErr) {
+		_, createDirErr := createDirectory(outDir)
+		if createDirErr != nil {
+			return createDirErr
+		}
+	}
+
 	outExecFilePath = path.Join(outDir, defaultExecName)
 	osType := fmt.Sprintf("%v", runtime.GOOS)
 	if osType == "windows" {
 		outExecFilePath += ".exe"
 	}
 
-	_, statErr := os.Stat(outExecFilePath)
-	if !os.IsNotExist(statErr) {
-		return nil
+	_, statFileErr := os.Stat(outExecFilePath)
+	if !os.IsNotExist(statFileErr) {
+		if err := os.Remove(outExecFilePath); err != nil {
+			return err
+		}
 	}
 
 	f, openErr := os.OpenFile(outExecFilePath, os.O_CREATE|os.O_RDWR|os.O_EXCL, os.ModePerm)
