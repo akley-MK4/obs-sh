@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func ShellLaunch(encAppData []byte, accKey, outDir string, enableClean bool) error {
+func ShellLaunch(encAppData []byte, accKey, outDir string, enableClean bool, kwArgs map[string]interface{}) error {
 	if accKey == "" {
 		accKey = defaultAccKey
 	}
@@ -18,7 +18,7 @@ func ShellLaunch(encAppData []byte, accKey, outDir string, enableClean bool) err
 	}
 
 	log.Println("Successfully parsed the app")
-	cmdStart, _, startErr := startProcess(nil)
+	cmdStart, _, startErr := startProcess(kwArgs)
 	if startErr != nil {
 		return startErr
 	}

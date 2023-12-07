@@ -17,7 +17,7 @@ func main() {
 	enableClean := flag.Bool("enable_clean", false, "enable_clean=")
 	flag.Parse()
 
-	if err := implement.ShellLaunch(encAppData, *accKey, *outDir, *enableClean); err != nil {
+	if err := implement.ShellLaunch(encAppData, *accKey, *outDir, *enableClean, nil); err != nil {
 		log.Println("Failed to execute the app, ", err.Error())
 		os.Exit(1)
 	}
