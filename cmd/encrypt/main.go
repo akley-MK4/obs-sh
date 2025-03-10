@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
-	"github.com/akley-MK4/obs-sh/implement"
 	"log"
 	"os"
+
+	"github.com/akley-MK4/obs-sh/implement"
 )
 
 func main() {
@@ -13,7 +14,7 @@ func main() {
 	outDir := flag.String("out_dir", "", "out_dir=")
 	flag.Parse()
 
-	if err := implement.EncryptFileToOutDir(*accKey, *filePath, *outDir); err != nil {
+	if err := implement.EncryptFile(*accKey, *filePath, *outDir); err != nil {
 		log.Println("Failed to encrypt file to the output directory, ", err.Error())
 		os.Exit(1)
 	}
