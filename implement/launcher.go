@@ -13,7 +13,7 @@ func ShellLaunch(encAppData []byte, accKey, outDir string, enableClean bool, kwA
 		outDir = defaultExecDir
 	}
 
-	if err := decryptFileToExecDir(accKey, encAppData, outDir, enableClean); err != nil {
+	if err := DecryptFile(accKey, encAppData, outDir, enableClean); err != nil {
 		return err
 	}
 

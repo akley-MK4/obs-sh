@@ -5,15 +5,14 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path"
 	"runtime"
 )
 
-func EncryptFileToOutDir(accKey string, filePath string, outDir string) error {
-	data, readErr := ioutil.ReadFile(filePath)
+func EncryptFile(accKey string, filePath string, outDir string) error {
+	data, readErr := os.ReadFile(filePath)
 	if readErr != nil {
 		return readErr
 	}
@@ -49,7 +48,7 @@ func EncryptFileToOutDir(accKey string, filePath string, outDir string) error {
 	return nil
 }
 
-func decryptFileToExecDir(accKey string, encData []byte, outDir string, enableClean bool) error {
+func DecryptFile(accKey string, encData []byte, outDir string, enableClean bool) error {
 	_, statErr := os.Stat(outDir)
 	if os.IsNotExist(statErr) {
 		_, createDirErr := createDirectory(outDir)
